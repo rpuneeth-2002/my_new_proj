@@ -7,7 +7,7 @@
   tasks: 
    - name: Task to create a new user
      user:
-      name: auser02
+      name: puneeth
       update_password: always
       password: "{{ 'test123' | password_hash('sha512') }}"
       uid: 8899
