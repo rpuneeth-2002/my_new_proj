@@ -1,18 +1,11 @@
 ---
-- name: Play book for Demo
+- name: Create user
   hosts: localhost
-  become: yes
-  gather_facts: no
-  remote_user: jenkins
-  tasks: 
-   - name: Task to create a new user
-     user:
-      name: puneeth
-      update_password: always
-      password: "{{ 'test123' | password_hash('sha512') }}
-      home: /home/auser01
-      shell: /bin/bash
-      comment: Created by Ansible Playbook
-      state: present
+  become: true
+
+  tasks:
+    - name: Create user puneeth
+      user:
+        name: puneeth
+        state: present
 ...
-#End of the play
