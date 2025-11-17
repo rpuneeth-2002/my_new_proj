@@ -6,6 +6,6 @@
   tasks:
     - name: Create user puneeth
       user:
-        name: puneeth
+        name: puneeth1
         state: present
 ...
