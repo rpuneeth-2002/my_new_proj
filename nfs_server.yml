@@ -1,0 +1,30 @@
+---
+- name: Configure NFS Server
+  hosts: nfsserver
+  become: yes
+
+  tasks:
+    - name: Install NFS packages
+      yum:
+        name:
+          - nfs-utils
+        state: present
+
+    - name: Create export directory
+      file:
+        path: /mnt/nfsdata
+        state: directory
+        mode: '0777'
+
+    - name: Configure /etc/exports
+      lineinfile:
+        path: /etc/exports
+        line: "/mnt/nfsdata *(rw,sync,no_root_squash)"
+        create: yes
+
+    - name: Restart NFS service
+      service:
+        name: nfs-server
+        state: restarted
+        enabled: yes
+...
