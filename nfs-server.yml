@@ -1,0 +1,36 @@
+---
+- name: Install and configure NFS Server on EC2
+  hosts: all
+  become: true
+  remote_user: jenkins
+
+  tasks:
+
+    - name: Install NFS server packages
+      package:
+        name:
+          - nfs-utils
+        state: present
+
+    - name: Ensure /nfs-server directory exists
+      file:
+        path: /nfs-server
+        state: directory
+        owner: jenkins
+        group: jenkins
+        mode: '0755'
+
+    - name: Configure NFS exports
+      copy:
+        dest: /etc/exports
+        content: |
+          /nfs-server  *(rw,sync,no_root_squash)
+
+    - name: Reload NFS exports
+      command: exportfs -vra
+
+    - name: Enable and start NFS server
+      service:
+        name: nfs-server
+        state: started
+        enabled: true
